@@ -37,7 +37,7 @@
 
 - name: is MTA installed?
   set_fact:
-    mta_installed: "{{'sendmail' in ansible_facts.packages or 'exim4-base' in ansible_facts.packages or 'postfix' in ansible_facts.packages}}"
+    mta_installed: "{{ 'sendmail' in ansible_facts.packages or 'exim4-base' in ansible_facts.packages or 'postfix' in ansible_facts.packages }}"
 
 - name: Install sendmail package if no MTA is installed
   package:
@@ -54,7 +54,7 @@
   blockinfile:
     path: /etc/aliases
     block: |2
-      root: {{root_email_address}}
+      root: {{ root_email_address }}
   register: root_mail_alias
 
 - name: Run newaliases
