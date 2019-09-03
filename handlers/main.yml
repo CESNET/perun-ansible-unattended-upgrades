@@ -1,0 +1,4 @@
+---
+- name: Run newaliases
+  command: newaliases
+  listen: "run newaliases"

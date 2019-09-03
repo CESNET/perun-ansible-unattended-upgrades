@@ -62,8 +62,4 @@
     path: /etc/aliases
     block: |2
       root: {{ root_email_address }}
-  register: root_mail_alias
-
-- name: Run newaliases
-  command: newaliases
-  when: root_mail_alias.changed
+  notify: "run newaliases"
