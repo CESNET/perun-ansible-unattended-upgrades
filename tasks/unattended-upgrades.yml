@@ -1,15 +1,25 @@
 ---
+- name: Require Debian
+  assert:
+    that:
+      - ansible_distribution == "Debian"
+  msg: "Only Debian is supported, this is {{ ansible_distribution }}"
+
+- name: Check that variables root_email_address is defined
+  assert:
+    that:
+      - root_email_address is defined
+    msg: "Define variable root_email_address !"
+
 - name: Install unattended-upgrades package
   package:
     name: unattended-upgrades
-    state: present
 
 - name: Set Origins-Pattern
-  lineinfile:
+  blockinfile:
     path: /etc/apt/apt.conf.d/50unattended-upgrades
     insertafter: "Unattended-Upgrade::Origins-Pattern {"
-    line: "\t\"{{ item }}\";"
-  with_items: "{{ origin_patterns }}"
+    block: "{{ origin_patterns }}"
 
 - name: Enable periodic updates
   copy:
@@ -20,20 +30,17 @@
 - name: Set Mail to root
   lineinfile:
     path: /etc/apt/apt.conf.d/50unattended-upgrades
-    regexp: '//Unattended-Upgrade::Mail "root";'
+    regexp: 'Unattended-Upgrade::Mail "'
     line:   'Unattended-Upgrade::Mail "root";'
-    backrefs: yes
 
 - name: Set MailOnlyOnError
   lineinfile:
     path: /etc/apt/apt.conf.d/50unattended-upgrades
-    regexp: '//Unattended-Upgrade::MailOnlyOnError "true";'
+    regexp: 'Unattended-Upgrade::MailOnlyOnError "'
     line:   'Unattended-Upgrade::MailOnlyOnError "true";'
-    backrefs: yes
 
 - name: get package facts
   package_facts:
-    manager: "apt"
 
 - name: is MTA installed?
   set_fact:

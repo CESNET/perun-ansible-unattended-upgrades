@@ -1,9 +1,7 @@
 ---
 # unattended-upgrades
-root_email_address: 'admin@example.com'
 
-origin_patterns:
-  - origin=Debian,codename=${distro_codename}
-  - origin=Debian,codename=${distro_codename}-updates
-  - origin=meta@cesnet.cz,a=stable
-  - origin=deb.sury.org
+origin_patterns: |2
+    "origin=Debian,codename=${distro_codename}";
+    "origin=Debian,codename=${distro_codename}-updates";
+    "origin=meta@cesnet.cz,a=stable";

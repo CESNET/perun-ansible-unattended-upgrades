@@ -2,12 +2,12 @@
 dependencies: []
 
 galaxy_info:
-  role_name: unattended-upgrades
-  owner: pajavyskocil
-  author: pajavyskocil
-  description: Unattended upgrades.
+  role_name: unattended_upgrades
+  author: Martin Kuba
+  company: CESNET
+  description: Installs unattended-upgrades
   license: "license (BSD, MIT)"
-  min_ansible_version: 2.4
+  min_ansible_version: 2.5
   platforms:
     - name: Debian
       versions:
@@ -15,5 +15,5 @@ galaxy_info:
         - buster
   galaxy_tags:
     - upgrades
-
-allow_duplicates: true
+    - metacentrum
+    - system
