@@ -3,7 +3,7 @@
   assert:
     that:
       - ansible_distribution == "Debian"
-  msg: "Only Debian is supported, this is {{ ansible_distribution }}"
+    msg: "Only Debian is supported, this is {{ ansible_distribution }}"
 
 - name: Check that variables root_email_address is defined
   assert:
