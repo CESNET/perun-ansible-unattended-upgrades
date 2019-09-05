@@ -1,4 +1,10 @@
 ---
-- import_tasks: unattended_upgrades.yml
+- import_tasks: unattended_upgrades_install.yml
   tags:
     - unattended_upgrades
+
+- import_tasks: unattended_upgrades_config.yml
+  tags:
+    - unattended_upgrades_config
+    - unattended_upgrades
+    - config

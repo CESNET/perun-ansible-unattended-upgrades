@@ -5,21 +5,9 @@
       - ansible_distribution == "Debian"
     msg: "Only Debian is supported, this is {{ ansible_distribution }}"
 
-- name: Check that variables root_email_address is defined
-  assert:
-    that:
-      - root_email_address is defined
-    msg: "Define variable root_email_address !"
-
 - name: Install unattended-upgrades package
   package:
     name: unattended-upgrades
-
-- name: Set Origins-Pattern
-  blockinfile:
-    path: /etc/apt/apt.conf.d/50unattended-upgrades
-    insertafter: "Unattended-Upgrade::Origins-Pattern {"
-    block: "{{ origin_patterns }}"
 
 - name: Enable periodic updates
   copy:
@@ -56,10 +44,3 @@
   package:
     name: mailutils
     state: present
-
-- name: Set root mail alias
-  blockinfile:
-    path: /etc/aliases
-    block: |2
-      root: {{ root_email_address }}
-  notify: "run newaliases"
