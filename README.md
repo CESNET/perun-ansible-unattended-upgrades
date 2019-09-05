@@ -4,6 +4,8 @@ unattended_upgrades
 Ansible Galaxy role [cesnet.unattended_upgrades](https://galaxy.ansible.com/cesnet/unattended_upgrades) that installs unattended-upgrades and configures them to send
 errors to root.
 
+Use "--tags config" to run only config.
+
 Requirements
 ------------
 
