@@ -11,8 +11,8 @@
     block: "{{ origin_patterns }}"
 
 - name: "Set root mail alias"
-    lineinfile:
-      path: /etc/aliases
-      regexp: "^root:"
-      line: "root: {{ root_email_address }}"
-    notify: "run newaliases"
+  lineinfile:
+    path: /etc/aliases
+    regexp: "^root:"
+    line: "root: {{ root_email_address }}"
+  notify: "run newaliases"
