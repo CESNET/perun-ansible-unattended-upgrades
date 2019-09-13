@@ -10,9 +10,9 @@
     insertafter: "Unattended-Upgrade::Origins-Pattern {"
     block: "{{ origin_patterns }}"
 
-- name: Set root mail alias
-  blockinfile:
-    path: /etc/aliases
-    block: |2
-      root: {{ root_email_address }}
-  notify: "run newaliases"
+- name: "Set root mail alias"
+    lineinfile:
+      path: /etc/aliases
+      regexp: "^root:"
+      line: "root: {{ root_email_address }}"
+    notify: "run newaliases"
