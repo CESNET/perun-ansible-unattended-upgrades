@@ -8,7 +8,14 @@
   blockinfile:
     path: /etc/apt/apt.conf.d/50unattended-upgrades
     insertafter: "Unattended-Upgrade::Origins-Pattern {"
-    block: "{{ origin_patterns }}"
+    block: "{{ unattended_upgrades_origin_patterns }}"
+
+- name: Set Package-Blacklist
+  blockinfile:
+    path: /etc/apt/apt.conf.d/50unattended-upgrades
+    insertafter: "Unattended-Upgrade::Package-Blacklist {"
+    marker: "# {mark} ANSIBLE MANAGED Blacklist"
+    block: "{{ unattended_upgrades_blacklist }}"
 
 - name: "Set root mail alias"
   lineinfile:

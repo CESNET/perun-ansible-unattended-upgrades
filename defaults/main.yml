@@ -1,7 +1,9 @@
 ---
 # unattended-upgrades
 
-origin_patterns: |2
+unattended_upgrades_origin_patterns: |2
     "origin=Debian,codename=${distro_codename}";
     "origin=Debian,codename=${distro_codename}-updates";
     "origin=meta@cesnet.cz,a=stable";
+
+unattended_upgrades_blacklist: ""
