@@ -8,3 +8,6 @@
     - unattended_upgrades_config
     - unattended_upgrades
     - config
+
+- name: "flush handlers"
+  meta: flush_handlers
