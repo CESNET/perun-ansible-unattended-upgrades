@@ -23,6 +23,8 @@ unattended_upgrades_origin_patterns: |2
           "origin=meta@cesnet.cz,a=stable";
 ```
 - unattended_upgrades_blacklist - block of lines defining packages blacklisted from upgrading, default empty
+- unattended_upgrades_automatic_reboot - "true" or "false" (the default) whether to reboot if /var/run/reboot-required exists
+- unattended_upgrades_automatic_reboot_time - the time to reboot, default is "now", value is used as argument to "/sbin/shutdown -r " e.g. "+20" is in 20 minutes or "02:00" is at 2 am. It is not possible to specify a day.
 
 Example Playbook
 ----------------
@@ -42,4 +44,6 @@ Example Playbook
         unattended_upgrades_blacklist: |2
                   "postgresql-11";
                   "slapd";
+        unattended_upgrades_automatic_reboot: "true"
+        unattended_upgrades_automatic_reboot_time: '02:00'
 ```

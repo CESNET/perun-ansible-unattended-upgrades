@@ -17,6 +17,18 @@
     marker: "# {mark} ANSIBLE MANAGED Blacklist"
     block: "{{ unattended_upgrades_blacklist }}"
 
+- name: Set Automatic-Reboot
+  lineinfile:
+    path: /etc/apt/apt.conf.d/50unattended-upgrades
+    regexp: 'Unattended-Upgrade::Automatic-Reboot "'
+    line:   'Unattended-Upgrade::Automatic-Reboot "{{ unattended_upgrades_automatic_reboot }}";'
+
+- name: Set Automatic-Reboot-Time
+  lineinfile:
+    path: /etc/apt/apt.conf.d/50unattended-upgrades
+    regexp: 'Unattended-Upgrade::Automatic-Reboot-Time "'
+    line:   'Unattended-Upgrade::Automatic-Reboot-Time "{{ unattended_upgrades_automatic_reboot_time }}";'
+
 - name: "Set root mail alias"
   lineinfile:
     path: /etc/aliases
