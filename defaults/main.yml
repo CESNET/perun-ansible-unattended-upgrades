@@ -14,3 +14,6 @@ unattended_upgrades_automatic_reboot: 'false'
 # unattended-upgrades are run on schedule set in /lib/systemd/system/apt-daily-upgrade.timer
 # which is at 6:00 plus randomly up to 60 minutes
 unattended_upgrades_automatic_reboot_time: 'now'
+
+unattended_upgrades_mta_package: "sendmail"
+unattended_upgrades_mail_package: "mailutils"

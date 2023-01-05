@@ -1,53 +1,53 @@
 ---
-- name: Require Debian
+- name: "require Debian"
   assert:
     that:
       - ansible_distribution == "Debian"
     msg: "Only Debian is supported, this is {{ ansible_distribution }}"
 
-- name: Does not work on Ansible 2.8
-  assert:
-    that:
-      - ansible_version is defined
-      - ansible_version.full is version('2.8', '<') or ansible_version.full is version('2.9', '>=')
-    msg: "Ansible 2.8 has broken package_facts, see https://github.com/ansible/ansible/issues/56921"
-
-- name: Install unattended-upgrades package
+- name: "install unattended-upgrades package"
   package:
     name: unattended-upgrades
 
-- name: Enable periodic updates
+- name: "enable periodic updates"
   copy:
     dest: /etc/apt/apt.conf.d/20auto-upgrades
     src: /usr/share/unattended-upgrades/20auto-upgrades
     remote_src: yes
 
-- name: Set Mail to root
+- name: "set Unattended-Upgrade::Mail to root"
   lineinfile:
     path: /etc/apt/apt.conf.d/50unattended-upgrades
     regexp: 'Unattended-Upgrade::Mail "'
     line:   'Unattended-Upgrade::Mail "root";'
 
-- name: Set MailOnlyOnError
+- name: "set Unattended-Upgrade::MailOnlyOnError true"
   lineinfile:
     path: /etc/apt/apt.conf.d/50unattended-upgrades
     regexp: 'Unattended-Upgrade::MailOnlyOnError "'
     line:   'Unattended-Upgrade::MailOnlyOnError "true";'
 
-- name: get package facts
-  package_facts:
+# see https://www.debian.org/doc/debian-policy/ch-customized-programs.html#s-mail-transport-agents
+- name: "check existence of /usr/sbin/sendmail"
+  stat:
+    path: /usr/sbin/sendmail
+  register: p
 
-- name: is MTA installed?
-  set_fact:
-    mta_installed: "{{ 'sendmail' in ansible_facts.packages or 'exim4-base' in ansible_facts.packages or 'postfix' in ansible_facts.packages }}"
-
-- name: Install sendmail package if no MTA is installed
+- name: "install MTA package {{ unattended_upgrades_mta_package }}"
+  when: not p.stat.exists
   package:
-    name: sendmail
+    name: "{{ unattended_upgrades_mta_package }}"
     state: present
-  when: not mta_installed
 
-- name: Install mailutils package
+# unattended-upgrades tries first sendmail, then mail command
+# see https://github.com/mvo5/unattended-upgrades/blob/2.9/unattended-upgrade#L1508
+- name: "check existence of /usr/bin/mail"
+  stat:
+    path: /usr/bin/mail
+  register: p
+
+- name: "install package providing the mail command"
+  when: not p.stat.exists
   package:
-    name: mailutils
+    name: "{{ unattended_upgrades_mail_package }}"
     state: present

@@ -15,16 +15,18 @@ that will receive errors.
 Role Variables
 --------------
 
-- unattended_upgrades_origin_patterns - block of lines defining checked repositories, the default is
+- **unattended_upgrades_origin_patterns** - block of lines defining checked repositories, the default is
 ```yaml
 unattended_upgrades_origin_patterns: |2
           "origin=Debian,codename=${distro_codename}";
           "origin=Debian,codename=${distro_codename}-updates";
           "origin=meta@cesnet.cz,a=stable";
 ```
-- unattended_upgrades_blacklist - block of lines defining packages blacklisted from upgrading, default empty
-- unattended_upgrades_automatic_reboot - "true" or "false" (the default) whether to reboot if /var/run/reboot-required exists
-- unattended_upgrades_automatic_reboot_time - the time to reboot, default is "now", value is used as argument to "/sbin/shutdown -r " e.g. "+20" is in 20 minutes or "02:00" is at 2 am. It is not possible to specify a day.
+- **unattended_upgrades_blacklist** - block of lines defining packages blacklisted from upgrading, default empty
+- **unattended_upgrades_automatic_reboot** - "true" or "false" (the default) whether to reboot if /var/run/reboot-required exists
+- **unattended_upgrades_automatic_reboot_time** - the time to reboot, default is "now", value is used as argument to "/sbin/shutdown -r " e.g. "+20" is in 20 minutes or "02:00" is at 2 am. It is not possible to specify a day.
+- **unattended_upgrades_mta_package** - Debian package providing Mail Transfer Agent, more specifically /usr/sbin/sendmail file, default is `sendmail`
+- **unattended_upgrades_mail_package** - Debian package providing the /usr/bin/mail file, default is `mailutils`
 
 Example Playbook
 ----------------
@@ -46,4 +48,6 @@ Example Playbook
                   "slapd";
         unattended_upgrades_automatic_reboot: "true"
         unattended_upgrades_automatic_reboot_time: '02:00'
+        unattended_upgrades_mta_package: "msmtp-mta"
+        unattended_upgrades_mail_package: "bsd-mailx"
 ```
