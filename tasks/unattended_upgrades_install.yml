@@ -46,7 +46,7 @@
     path: /usr/bin/mail
   register: p
 
-- name: "install package providing the mail command"
+- name: "install package {{ unattended_upgrades_mail_package }} providing the mail command"
   when: not p.stat.exists
   package:
     name: "{{ unattended_upgrades_mail_package }}"
