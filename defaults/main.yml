@@ -8,7 +8,7 @@ unattended_upgrades_origin_patterns: |2
 
 unattended_upgrades_blacklist: ""
 
-unattended_upgrades_automatic_reboot: 'false'
+unattended_upgrades_automatic_reboot: 'true'
 
 # value for "/sbin/shutdown -r [time]" e.g. "+20" is in 20 minutes or "02:00" is at 2 am
 # unattended-upgrades are run on schedule set in /lib/systemd/system/apt-daily-upgrade.timer

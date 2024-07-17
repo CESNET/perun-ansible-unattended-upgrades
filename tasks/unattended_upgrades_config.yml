@@ -4,26 +4,52 @@
       - root_email_address is defined
     msg: "Define variable root_email_address !"
 
-- name: "set Origins-Pattern"
+# see the script /usr/lib/apt/apt.systemd.daily for options
+
+- name: "set APT::Periodic::Update-Package-Lists"
+  lineinfile:
+    path: /etc/apt/apt.conf.d/20auto-upgrades
+    regexp: 'APT::Periodic::Update-Package-Lists "'
+    line:   'APT::Periodic::Update-Package-Lists "always";'
+
+- name: "set APT::Periodic::Unattended-Upgrade"
+  lineinfile:
+    path: /etc/apt/apt.conf.d/20auto-upgrades
+    regexp: 'APT::Periodic::Unattended-Upgrade "'
+    line:   'APT::Periodic::Unattended-Upgrade "always";'
+
+- name: "set Unattended-Upgrade::Mail to root"
+  lineinfile:
+    path: /etc/apt/apt.conf.d/50unattended-upgrades
+    regexp: 'Unattended-Upgrade::Mail "'
+    line:   'Unattended-Upgrade::Mail "root";'
+
+- name: "set Unattended-Upgrade::MailOnlyOnError"
+  lineinfile:
+    path: /etc/apt/apt.conf.d/50unattended-upgrades
+    regexp: 'Unattended-Upgrade::MailOnlyOnError "'
+    line:   'Unattended-Upgrade::MailOnlyOnError "true";'
+
+- name: "set Unattended-Upgrade::Origins-Pattern"
   blockinfile:
     path: /etc/apt/apt.conf.d/50unattended-upgrades
     insertafter: "Unattended-Upgrade::Origins-Pattern {"
     block: "{{ unattended_upgrades_origin_patterns }}"
 
-- name: "set Package-Blacklist"
+- name: "set Unattended-Upgrade::Package-Blacklist"
   blockinfile:
     path: /etc/apt/apt.conf.d/50unattended-upgrades
     insertafter: "Unattended-Upgrade::Package-Blacklist {"
     marker: "# {mark} ANSIBLE MANAGED Blacklist"
     block: "{{ unattended_upgrades_blacklist }}"
 
-- name: "set Automatic-Reboot"
+- name: "set Unattended-Upgrade::Automatic-Reboot"
   lineinfile:
     path: /etc/apt/apt.conf.d/50unattended-upgrades
     regexp: 'Unattended-Upgrade::Automatic-Reboot "'
     line:   'Unattended-Upgrade::Automatic-Reboot "{{ unattended_upgrades_automatic_reboot }}";'
 
-- name: "set Automatic-Reboot-Time"
+- name: "set Unattended-Upgrade::Automatic-Reboot-Time"
   lineinfile:
     path: /etc/apt/apt.conf.d/50unattended-upgrades
     regexp: 'Unattended-Upgrade::Automatic-Reboot-Time "'

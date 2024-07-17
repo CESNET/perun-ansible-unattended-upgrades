@@ -14,18 +14,7 @@
     dest: /etc/apt/apt.conf.d/20auto-upgrades
     src: /usr/share/unattended-upgrades/20auto-upgrades
     remote_src: yes
-
-- name: "set Unattended-Upgrade::Mail to root"
-  lineinfile:
-    path: /etc/apt/apt.conf.d/50unattended-upgrades
-    regexp: 'Unattended-Upgrade::Mail "'
-    line:   'Unattended-Upgrade::Mail "root";'
-
-- name: "set Unattended-Upgrade::MailOnlyOnError true"
-  lineinfile:
-    path: /etc/apt/apt.conf.d/50unattended-upgrades
-    regexp: 'Unattended-Upgrade::MailOnlyOnError "'
-    line:   'Unattended-Upgrade::MailOnlyOnError "true";'
+    force: false
 
 # see https://www.debian.org/doc/debian-policy/ch-customized-programs.html#s-mail-transport-agents
 - name: "check existence of /usr/sbin/sendmail"
